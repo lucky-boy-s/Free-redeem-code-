@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Free Redeem Code</title>
+    <style>
+        /* Basic CSS for styling the page */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #1c1e21;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #606770;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        #watchAdBtn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        #watchAdBtn:hover {
+            background-color: #166fe5;
+        }
+        #counter {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        /* Styles for the reward section, initially hidden */
+        .hidden {
+            display: none;
+        }
+        #rewardSection {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px dashed #42b72a;
+            background-color: #f0fff4;
+            border-radius: 8px;
+        }
+        #redeemCode {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            background-color: #e9ebee;
+            padding: 10px;
+            border-radius: 4px;
+            display: block;
+            margin-bottom: 15px;
+            word-wrap: break-word; /* Ensure code doesn't overflow */
+        }
+        #copyBtn {
+            background-color: #42b72a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #copyBtn:hover {
+            background-color: #36a420;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Get ₹30 Redeem Code</h1>
+        <p>Click the button below 5 times to watch an ad. After the 5th ad, your redeem code will be revealed.</p>
+
+        <!-- Button to watch ads -->
+        <button id="watchAdBtn">Watch Ad (0/5)</button>
+        
+        <!-- This paragraph will be updated by JavaScript -->
+        <p id="counter"></p>
+
+        <!-- The reward section, hidden by default -->
+        <div id="rewardSection" class="hidden">
+            <h2>Congratulations!</h2>
+            <p>Here is your personal redeem code:</p>
+            <span id="redeemCode">9UJRZUB2K39XCCL1</span>
+            <button id="copyBtn">Copy Code</button>
+        </div>
+
+        <div class="footer">
+            <p>Note: Clicking the button may open pop-up ads. Please ensure your pop-up blocker is disabled for this site.</p>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const requiredClicks = 5;
+        const redeemCode = '9UJRZUB2K39XCCL1';
+        const adScriptUrl = '//pl26987549.profitableratecpm.com/5c/bf/fd/5cbffd51d107dbff833d6fe88f8d8796.js';
+
+        // --- GETTING ELEMENTS FROM THE PAGE ---
+        const watchAdBtn = document.getElementById('watchAdBtn');
+        const counterText = document.getElementById('counter');
+        const rewardSection = document.getElementById('rewardSection');
+        const copyBtn = document.getElementById('copyBtn');
+        const redeemCodeElement = document.getElementById('redeemCode');
+
+        // --- STATE VARIABLE ---
+        let adClickCount = 0;
+
+        // --- EVENT LISTENERS ---
+
+        // Listen for clicks on the "Watch Ad" button
+        watchAdBtn.addEventListener('click', () => {
+            // 1. Play the ad by creating and adding the script to the page
+            playAd();
+            
+            // 2. Increment the click counter
+            adClickCount++;
+            
+            // 3. Update the button text
+            updateButtonText();
+            
+            // 4. Check if the required number of clicks has been reached
+            if (adClickCount >= requiredClicks) {
+                showReward();
+            }
+        });
+
+        // Listen for clicks on the "Copy Code" button
+        copyBtn.addEventListener('click', () => {
+            // Use the modern Navigator Clipboard API to copy the code
+            navigator.clipboard.writeText(redeemCode).then(() => {
+                // Success feedback
+                copyBtn.textContent = 'Copied!';
+                // Reset button text after 2 seconds
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Code';
+                }, 2000);
+            }).catch(err => {
+                // Error feedback
+                console.error('Failed to copy code: ', err);
+                alert('Failed to copy code. Please copy it manually.');
+            });
+        });
+
+        // --- FUNCTIONS ---
+
+        /**
+         * This function dynamically creates a script tag and appends it to the body.
+         * This is how the ad from the provided URL is triggered.
+         */
+        function playAd() {
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = adScriptUrl;
+            document.body.appendChild(script);
+        }
+
+        /**
+         * Updates the text on the main button to show progress.
+         */
+        function updateButtonText() {
+            watchAdBtn.textContent = `Watch Ad (${adClickCount}/${requiredClicks})`;
+        }
+
+        /**
+         * Hides the ad button and shows the reward section with the code.
+         */
+        function showReward() {
+            // Hide the ad button and counter
+            watchAdBtn.style.display = 'none';
+            counterText.style.display = 'none';
+            
+            // Show the reward section
+            rewardSection.classList.remove('hidden');
+
+            // Set the redeem code in the display span (optional, as it's already in HTML)
+            redeemCodeElement.textContent = redeemCode;
+        }
+    </script>
+
+</body>
+</html>
